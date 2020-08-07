@@ -18,7 +18,7 @@ import {
   MatDividerModule,
   MatProgressSpinnerModule
 } from '@angular/material';
-import { OktaAuthModule } from '@okta/okta-angular';
+import { OKTA_CONFIG, OktaAuthModule } from '@okta/okta-angular';
 
 import 'hammerjs';
 import { HomeComponent } from './components/home/home.component';
@@ -29,6 +29,13 @@ import { environment } from '../environments/environment';
 
 import { RequestCacheService } from './cache/request-cache.service';
 import { CachingInterceptorService } from './cache/caching-interceptor.service';
+
+const oktaConfig = {
+  issuer: 'https://dev-108944.okta.com/oauth2/default',
+  redirectUri: 'http://localhost:8080/implicit/callback',
+  clientId: '0oaoii3r4qY0J9W734x6',
+  pkce: true
+}
 
 
 @NgModule({
@@ -54,14 +61,10 @@ import { CachingInterceptorService } from './cache/caching-interceptor.service';
     MatTableModule,
     MatDividerModule,
     MatProgressSpinnerModule,
-    OktaAuthModule.initAuth({
-      issuer: 'https://dev-108944.okta.com/oauth2/default',
-      redirectUri: 'http://localhost:8080/implicit/callback',
-      clientId: '0oaoii3r4qY0J9W734x6'
-    }),
+    OktaAuthModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: CachingInterceptorService, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: CachingInterceptorService, multi: true }, { provide: OKTA_CONFIG, useValue: oktaConfig }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
