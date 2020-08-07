@@ -1,45 +1,67 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GeolocationService } from './services/geolocation.service';
-import { DataService } from './services/data.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-// import { MatButtonModule } from '@angular/material/button';
-// import { MatIconModule } from '@angular/material/icon';
-// import { MatFormFieldModule } from '@angular/material/form-field';
-// import { MatInputModule } from '@angular/material/input';
-// import { MatSelectModule } from '@angular/material/select';
-// import { MatSliderModule } from '@angular/material/slider';
-import { MatToolbarModule } from '@angular/material/toolbar';
-// import { MatCardModule } from '@angular/material/card';
-// import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-// import { MatFormFieldControl } from "@angular/material/form-field";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import {
+  MatToolbarModule,
+  MatMenuModule,
+  MatIconModule,
+  MatCardModule,
+  MatButtonModule,
+  MatTableModule,
+  MatDividerModule,
+  MatProgressSpinnerModule
+} from '@angular/material';
+import { OktaAuthModule } from '@okta/okta-angular';
 
 import 'hammerjs';
+import { HomeComponent } from './components/home/home.component';
+import { SearchComponent } from './components/search/search.component';
+import { DetailsComponent } from './components/details/details.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+
+import { RequestCacheService } from './cache/request-cache.service';
+import { CachingInterceptorService } from './cache/caching-interceptor.service';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    SearchComponent,
+    DetailsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    // MatButtonModule,
-    // MatIconModule,
-    // MatFormFieldModule,
-    // MatInputModule,
-    // MatSelectModule,
-    // MatSliderModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FlexLayoutModule,
+    MatMenuModule,
     MatToolbarModule,
-    // MatCardModule,
-    // MatSlideToggleModule,
-    // MatFormFieldControl
+    MatIconModule,
+    MatCardModule,
+    MatButtonModule,
+    MatTableModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+    OktaAuthModule.initAuth({
+      issuer: 'https://dev-108944.okta.com/oauth2/default',
+      redirectUri: 'http://localhost:8080/implicit/callback',
+      clientId: '0oaoii3r4qY0J9W734x6'
+    }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [GeolocationService, DataService],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: CachingInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
