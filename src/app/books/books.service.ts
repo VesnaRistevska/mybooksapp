@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-const baseUrl = 'http://openlibrary.org';
+const baseUrl = 'https://openlibrary.org';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +11,10 @@ export class BooksService {
   constructor(private http: HttpClient) { }
 
   async get(route: string, data?: any) {
-    const url = baseUrl+route;
+    const url = baseUrl + route;
     let params = new HttpParams();
 
-    if (data!==undefined) {
+    if (data !== undefined) {
       Object.getOwnPropertyNames(data).forEach(key => {
         params = params.set(key, data[key]);
       });
@@ -31,6 +31,6 @@ export class BooksService {
   }
 
   searchBooks(query: string) {
-    return this.get('/search.json', {title: query});
+    return this.get('/search.json', { title: query });
   }
 }
