@@ -9,7 +9,7 @@ import { OktaAuthService } from '@okta/okta-angular';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'AngularBooksPWA';
+  title = 'AngularBooks';
   searchForm: FormGroup;
   isAuthenticated: boolean;
   offline: boolean;
@@ -44,11 +44,11 @@ export class AppComponent {
     this.router.navigate(['search'], { queryParams: { query: this.searchForm.get('search').value } });
   }
 
-  login() {
-    this.oktaAuth.loginRedirect();
-  }
+  // login() {
+  //   this.oktaAuth.loginRedirect();
+  // }
 
-  logout() {
-    this.oktaAuth.logout('/');
-  }
+  // logout() {
+  //   this.oktaAuth.logout('/');
+  // }
 }

@@ -7,9 +7,9 @@ import { OktaCallbackComponent, OktaAuthGuard } from '@okta/okta-angular';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'search', component: SearchComponent, canActivate: [OktaAuthGuard] },
-  { path: 'details', component: DetailsComponent, canActivate: [OktaAuthGuard] },
-  { path: 'implicit/callback', component: OktaCallbackComponent }
+  { path: 'search', component: SearchComponent },
+  { path: 'details', component: DetailsComponent }
+  // { path: 'implicit/callback', component: OktaCallbackComponent }
 ];
 
 @NgModule({
